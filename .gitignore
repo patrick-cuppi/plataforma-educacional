@@ -1,1 +1,10 @@
-node_modules/
+# Dependencies
+node_modules
+
+# Environments
+.vscode
+.env 
+
+# Build
+build 
+dist 
