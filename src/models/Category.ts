@@ -1,5 +1,4 @@
-// biome-ignore lint/style/useImportType: <explanation>
-import { DataTypes, Model, Optional } from 'sequelize'
+import { DataTypes, type Model, type Optional } from 'sequelize'
 import { sequelize } from '../database'
 
 export interface Category {
