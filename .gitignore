@@ -1,10 +1,13 @@
+# Files
+uploads
+public/thumbnails
+
 # Dependencies
 node_modules
 
 # Environments
 .vscode
 .env 
-uploads
 
 # Build
 build 
