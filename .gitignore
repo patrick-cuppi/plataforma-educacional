@@ -1,3 +1,7 @@
+# Files
+uploads
+public/thumbnails
+
 # Dependencies
 node_modules
 

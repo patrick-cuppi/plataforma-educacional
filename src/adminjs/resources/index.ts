@@ -5,6 +5,7 @@ import { courseResourceOptions } from './course'
 import { episodeResourceOptions } from './episode'
 import { userResourceOptions } from './user'
 
+
 export const adminJsResource: ResourceWithOptions[] = [
   {
     resource: Category,
@@ -13,10 +14,12 @@ export const adminJsResource: ResourceWithOptions[] = [
   {
     resource: Course,
     options: courseResourceOptions,
+    features: courseResourceFeatures,
   },
   {
     resource: Episode,
     options: episodeResourceOptions,
+    features: episodeResourceFeatures,
   },
   {
     resource: User,
