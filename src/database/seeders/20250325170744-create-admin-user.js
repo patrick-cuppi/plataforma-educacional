@@ -3,10 +3,9 @@
 
 const bcrypt = require('bcrypt')
 
-
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const password = String(process.env.PASSWORD_ADMIN)
+    const password = process.env.PASSWORD_ADMIN ?? String()
     const hashedPassword = await bcrypt.hash(password, 6)
 
     await queryInterface.bulkInsert('users', [
