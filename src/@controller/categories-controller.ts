@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { Category } from '../models'
+import { categoryService } from '../@services/categoryService'
 
 export const categoriesController = {
   index: async (req: Request, res: Response) => {
@@ -13,22 +13,10 @@ export const categoriesController = {
     const pageNumber =
       typeof page === 'string' && Number.parseInt(page, 10) > 0 ? Number.parseInt(page, 10) : 1
 
-    const offset = (pageNumber - 1) * perPageNumber
-
     try {
-      const { count, rows } = await Category.findAndCountAll({
-        attributes: ['id', 'name', 'position'],
-        order: [['position', 'ASC']],
-        limit: perPageNumber,
-        offset,
-      })
+      const paginatedCategories = await categoryService.findAllPaginated(pageNumber, perPageNumber)
 
-      return res.json({
-        categories: rows,
-        page: pageNumber,
-        perPage: perPageNumber,
-        total: count,
-      })
+      return res.json(paginatedCategories)
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({ message: error.message })
