@@ -16,4 +16,18 @@ export const categoriesController = {
       }
     }
   },
+
+  show: async (req: Request, res: Response) => {
+    const { id } = req.params
+
+    try {
+      const category = await categoryService.findById(id)
+
+      return res.json(category)
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message })
+      }
+    }
+  },
 }
