@@ -14,6 +14,18 @@ export const coursesController = {
     }
   },
 
+  releases: async (req: Request, res: Response) => {
+    try {
+      const releaseCourses = await courseService.getTopTenNewest()
+
+      return res.json(releaseCourses)
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message })
+      }
+    }
+  },
+
   show: async (req: Request, res: Response) => {
     const { id } = req.params
 

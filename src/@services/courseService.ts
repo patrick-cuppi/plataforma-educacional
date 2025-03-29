@@ -34,4 +34,14 @@ export const courseService = {
 
     return randomFeaturedCourses.slice(0, 3)
   },
+
+  getTopTenNewest: async () => {
+    const courses = await Course.findAll({
+      attributes: ['id', 'name', 'synopsis', ['thumbnail_url', 'thumbnailUrl'], 'categoryId'],
+      limit: 10,
+      order: [['created_at', 'DESC']],
+    })
+
+    return courses
+  },
 }
