@@ -26,6 +26,22 @@ export const coursesController = {
     }
   },
 
+  search: async (req: Request, res: Response) => {
+    const { name } = req.query
+
+    try {
+      if (typeof name !== 'string') throw new Error('Type need to be string.')
+
+      const searchCourses = await courseService.findByName(name)
+
+      return res.json(searchCourses)
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message })
+      }
+    }
+  },
+
   show: async (req: Request, res: Response) => {
     const { id } = req.params
 
