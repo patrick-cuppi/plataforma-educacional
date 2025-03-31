@@ -1,6 +1,7 @@
 # Files
 uploads
 public/thumbnails
+public/video.html
 
 # Dependencies
 node_modules

@@ -35,6 +35,17 @@ export const episodesController = {
 
         file.pipe(res)
       }
+
+      if (!range) {
+        const head = {
+          'Content-Length': fileStat.size,
+          'Content-Type': 'video/mp4',
+        }
+
+        res.writeHead(200, head)
+
+        fs.createReadStream(filePath).pipe(res)
+      }
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({ message: error.message })
