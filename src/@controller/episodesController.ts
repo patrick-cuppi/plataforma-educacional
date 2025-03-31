@@ -19,6 +19,21 @@ export const episodesController = {
 
         const start = Number.parseInt(parts[0], 10)
         const end = parts[1] ? Number.parseInt(parts[1], 10) : fileStat.size - 1
+
+        const chunkSize = end - start + 1
+
+        const file = fs.createReadStream(filePath, { start, end })
+
+        const head = {
+          'Content-Range': `bytes ${start}-${end}/${fileStat.size}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunkSize,
+          'Content-Type': 'video/mp4',
+        }
+
+        res.writeHead(206, head)
+
+        file.pipe(res)
       }
     } catch (error) {
       if (error instanceof Error) {
