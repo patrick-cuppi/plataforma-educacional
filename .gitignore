@@ -9,6 +9,7 @@ node_modules
 # Environments
 .vscode
 .env 
+env.d.ts
 
 # Build
 build 
