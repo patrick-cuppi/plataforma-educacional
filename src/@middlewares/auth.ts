@@ -20,10 +20,28 @@ export function ensureAuth(req: AuthenticatedRequest, res: Response, next: NextF
     if (error || typeof decoded === 'undefined')
       return res.status(401).json({ message: 'Access denied! The token is not valid' })
 
-    await userService.findByEmail((decoded as JwtPayload).email).then(user => {
-      req.user = user
+    const user = await userService.findByEmail((decoded as JwtPayload).email)
 
-      next()
-    })
+    req.user = user
+    next()
+  })
+}
+
+export function ensureAuthViaQuery(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { token } = req.query
+
+  if (!token) return res.status(401).json({ message: 'Access denied! The token is not valid' })
+
+  if (typeof token !== 'string')
+    return res.status(401).json({ message: 'Access denied! The token is not valid' })
+
+  jwtService.verifyToken(token, async (error, decoded) => {
+    if (error || typeof decoded === 'undefined')
+      return res.status(401).json({ message: 'Access denied! The token is not valid' })
+
+    const user = await userService.findByEmail((decoded as JwtPayload).email)
+
+    req.user = user
+    next()
   })
 }
