@@ -18,4 +18,16 @@ export const likeService = {
       },
     })
   },
+
+  isLiked: async (userId: number, courseId: number) => {
+    const like = await Like.findOne({
+      where: {
+        userId,
+        courseId,
+      },
+    })
+
+    // biome-ignore lint/complexity/noUselessTernary: <explanation>
+    return like !== null ? true : false
+  },
 }

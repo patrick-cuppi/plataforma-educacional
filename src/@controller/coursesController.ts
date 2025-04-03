@@ -1,6 +1,8 @@
 import type { Request, Response } from 'express'
 import { getPaginationParams } from '../@helpers/getPaginationParams'
+import type { AuthenticatedRequest } from '../@middlewares/auth'
 import { courseService } from '../@services/courseService'
+import { likeService } from '../@services/likeService'
 
 export const coursesController = {
   featured: async (req: Request, res: Response) => {
@@ -44,13 +46,18 @@ export const coursesController = {
     }
   },
 
-  show: async (req: Request, res: Response) => {
-    const { id } = req.params
+  show: async (req: AuthenticatedRequest, res: Response) => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    const userId = req.user!.id
+    const courseId = req.params.id
 
     try {
-      const course = await courseService.findById(id)
+      const course = await courseService.findById(courseId)
 
-      return res.json(course)
+      if (!course) return res.status(404).json({ message: 'Course not found!' })
+
+      const liked = await likeService.isLiked(userId, Number(courseId))
+      return res.json({ ...course.get(), liked })
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({ message: error.message })
