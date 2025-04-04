@@ -1,9 +1,10 @@
 import express from 'express'
 import { authController } from './@controller/authController'
-import { categoriesController } from './@controller/categories-controller'
+import { categoriesController } from './@controller/categoriesController'
 import { coursesController } from './@controller/coursesController'
 import { episodesController } from './@controller/episodesController'
 import { favoritesController } from './@controller/favoritesController'
+import { likesController } from './@controller/likesController'
 import { ensureAuth, ensureAuthViaQuery } from './@middlewares/auth'
 
 const router = express.Router()
@@ -24,5 +25,8 @@ router.get('/episodes/stream', ensureAuthViaQuery, episodesController.stream)
 router.get('/favorites', ensureAuth, favoritesController.index)
 router.post('/favorites', ensureAuth, favoritesController.save)
 router.delete('/favorites/:id', ensureAuth, favoritesController.delete)
+
+router.post('/likes', ensureAuth, likesController.save)
+router.delete('/likes/:id', ensureAuth, likesController.delete)
 
 export { router }
